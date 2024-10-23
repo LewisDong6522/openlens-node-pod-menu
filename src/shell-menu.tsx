@@ -30,12 +30,12 @@ export class PodShellMenu extends React.Component<Renderer.Component.KubeObjectM
   async execShell(container?: string) {
     const { object: pod } = this.props;
 
-    const kubectlPath = App.Preferences.getKubectlPath() || "kubectl";
+    // const kubectlPath = App.Preferences.getKubectlPath() || "kubectl";
+    const smcEksCmd = "smc eks pod enter";
     const commandParts = [
-      kubectlPath,
-      "exec",
-      "-i",
-      "-t",
+      smcEksCmd,
+      "-k",
+      "cls-b9xs86zr", 
       "-n", pod.getNs(),
       pod.getName(),
     ];
@@ -43,19 +43,7 @@ export class PodShellMenu extends React.Component<Renderer.Component.KubeObjectM
     if (window.navigator.platform !== "Win32") {
       commandParts.unshift("exec");
     }
-
-    if (container) {
-      commandParts.push("-c", container);
-    }
-
-    commandParts.push("--");
-
-    if (pod.getSelectedNodeOs() === "windows") {
-      commandParts.push("powershell");
-    } else {
-      commandParts.push('sh -c "clear; (bash || ash || sh)"');
-    }
-
+    
     const shell = createTerminalTab({
       title: `Pod: ${pod.getName()} (namespace: ${pod.getNs()})`,
     });
