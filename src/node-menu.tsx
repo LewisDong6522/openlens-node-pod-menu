@@ -3,8 +3,8 @@
  * Licensed under MIT License. See LICENSE in root directory for more information.
  */
 
-import React from "react";
 import { Common, Renderer } from "@k8slens/extensions";
+import React from "react";
 
 type Node = Renderer.K8sApi.Node;
 
@@ -41,11 +41,22 @@ export function NodeMenu(props: Renderer.Component.KubeObjectMenuProps<Node>) {
   };
 
   const shell = () => {
-    createTerminalTab({
+    const myshell = createTerminalTab({
       title: `Node: ${nodeName}`,
       node: nodeName,
     });
+    const smcTocCmd = "smc toc";
+    const cmdParts = [
+      smcTocCmd,
+      nodeName.split(".")[0].replace(/-/g, "."),
+    ];
+    terminalStore.sendCommand(cmdParts.join(" "), {
+      enter: true,
+      tabId: myshell.id,
+    });
+
     Navigation.hideDetails();
+    return myshell;
   };
 
   const cordon = () => {
