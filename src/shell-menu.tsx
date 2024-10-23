@@ -5,8 +5,8 @@
 
 
 
+import { Common, Renderer } from "@k8slens/extensions";
 import React from "react";
-import { Renderer, Common } from "@k8slens/extensions";
 
 type Pod = Renderer.K8sApi.Pod;
 
@@ -32,10 +32,11 @@ export class PodShellMenu extends React.Component<Renderer.Component.KubeObjectM
 
     // const kubectlPath = App.Preferences.getKubectlPath() || "kubectl";
     const smcEksCmd = "smc eks pod enter";
+    // "10-192-35-1.cls-geb4wx4p.ecp.shopeemobile.com"
+    const nodeName = pod.getNodeName();
     const commandParts = [
       smcEksCmd,
-      "-k",
-      "cls-b9xs86zr", 
+      "-k", nodeName.split(".")[1],
       "-n", pod.getNs(),
       pod.getName(),
     ];
@@ -43,7 +44,7 @@ export class PodShellMenu extends React.Component<Renderer.Component.KubeObjectM
     if (window.navigator.platform !== "Win32") {
       commandParts.unshift("exec");
     }
-    
+
     const shell = createTerminalTab({
       title: `Pod: ${pod.getName()} (namespace: ${pod.getNs()})`,
     });
@@ -72,7 +73,7 @@ export class PodShellMenu extends React.Component<Renderer.Component.KubeObjectM
         <span className="title">Shell</span>
         {containers.length > 1 && (
           <>
-            <Icon className="arrow" material="keyboard_arrow_right"/>
+            <Icon className="arrow" material="keyboard_arrow_right" />
             <SubMenu>
               {
                 containers.map(container => {
@@ -84,7 +85,7 @@ export class PodShellMenu extends React.Component<Renderer.Component.KubeObjectM
                       onClick={Util.prevDefault(() => this.execShell(name))}
                       className="flex align-center"
                     >
-                      <StatusBrick/>
+                      <StatusBrick />
                       <span>{name}</span>
                     </MenuItem>
                   );
