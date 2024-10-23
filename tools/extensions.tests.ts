@@ -39,7 +39,7 @@ describe("extensions page tests", () => {
 
     // Expect extension to be listed in installed list and enabled
     const installedExtensionName = await (await window.waitForSelector('div[class*="installed-extensions-module__extensionName--"]')).textContent();
-    expect(installedExtensionName).toBe("@alebcay/openlens-node-pod-menu");
+    expect(installedExtensionName).toBe("@LewisDong6522/openlens-node-pod-menu");
     const installedExtensionState = await (await window.waitForSelector('div[class*="installed-extensions-module__enabled--"]')).textContent();
     expect(installedExtensionState).toBe("Enabled");
     await window.click('div[class*="close-button-module__closeButton--"][aria-label=Close]');
@@ -56,11 +56,11 @@ describe("extensions page tests", () => {
     if (await frame.locator('div[data-testid=sidebar-item-pods]').count() === 0) {
       await frame.click('div[data-testid=sidebar-item-workloads]');
     }
-  }, 10*60*1000);
+  }, 10 * 60 * 1000);
 
   afterAll(async () => {
     await cleanup?.();
-  }, 10*60*1000);
+  }, 10 * 60 * 1000);
 
   it('adds menu items to the pod details overlay', async () => {
     // Navigate to pods view
@@ -85,7 +85,7 @@ describe("extensions page tests", () => {
 
     // Close pod details
     await frame.click('span[data-icon-name=close]');
-  }, 10*60*1000);
+  }, 10 * 60 * 1000);
 
   it('adds menu items to the pod actions dropdown', async () => {
     // Navigate to pods view
@@ -111,7 +111,7 @@ describe("extensions page tests", () => {
 
     // Go back to sorting by name
     await frame.click('div[id="name"][class="TableCell name nowrap sorting"]');
-  }, 10*60*1000);
+  }, 10 * 60 * 1000);
 
   it('adds menu items to the node details overlay', async () => {
     // Navigate to nodes view
@@ -131,7 +131,7 @@ describe("extensions page tests", () => {
 
     // Close node details
     await frame.click('span[data-icon-name=close]');
-  }, 10*60*1000);
+  }, 10 * 60 * 1000);
 
   it('adds menu items to the node actions dropdown', async () => {
     // Navigate to nodes view
@@ -151,5 +151,5 @@ describe("extensions page tests", () => {
 
     // Close dropdown
     await menu.click();
-  }, 10*60*1000);
+  }, 10 * 60 * 1000);
 });
